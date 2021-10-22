@@ -1,13 +1,16 @@
 #include "instance.hpp"
 
+std::vector<const char *> layerNames {
+
+	"VK_LAYER_KHRONOS_validation"
+};
+
 VkResult Instance::createInstance(const char *appname) {
 
         if(!layerExtension.getInstanceLayerProperties()) {
 
                 throw std::runtime_error("Validation layers requested but not available");
         }
-
-        layerExtension.getRequiredExtensions();
 
         VkApplicationInfo appInfo{};
 
@@ -18,14 +21,20 @@ VkResult Instance::createInstance(const char *appname) {
         appInfo.engineVersion      = VK_MAKE_VERSION(1, 0, 0);
         appInfo.apiVersion         = VK_API_VERSION_1_2;
 
+        VkDebugUtilsMessengerCreateInfoEXT dbgMsgInfo {};
+        layerExtension.populateDebugMessengerCreateInfo(dbgMsgInfo);
+
+        auto extensions = layerExtension.getRequiredExtensions();
+
         VkInstanceCreateInfo instInfo{};
 
         instInfo.sType                   = VK_STRUCTURE_TYPE_INSTANCE_CREATE_INFO;
+        instInfo.pNext                   = (VkDebugUtilsMessengerCreateInfoEXT*) &dbgMsgInfo;
         instInfo.pApplicationInfo        = &appInfo;
-        instInfo.enabledLayerCount       = (uint32_t)layerExtension.Layers.size();
-        instInfo.ppEnabledLayerNames     = layerExtension.Layers.size() ? layerExtension.Layers.data() : NULL;
-        instInfo.enabledExtensionCount   = (uint32_t)layerExtension.Extensions.size();
-        instInfo.ppEnabledExtensionNames = layerExtension.Extensions.size() ? layerExtension.Extensions.data() : NULL;
+        instInfo.enabledLayerCount       = (uint32_t)layerNames.size();
+        instInfo.ppEnabledLayerNames     = layerNames.size() ? layerNames.data() : NULL;
+        instInfo.enabledExtensionCount   = (uint32_t)extensions.size();
+        instInfo.ppEnabledExtensionNames = extensions.size() ? extensions.data() : NULL;
 
 
         return vkCreateInstance(&instInfo, nullptr, &instance);
@@ -33,5 +42,6 @@ VkResult Instance::createInstance(const char *appname) {
 
 void Instance::destroyInstance() {
 
+        layerExtension.destroyDebugUtilsMessengerEXT(instance, layerExtension.debugMessenger, nullptr);
         if(instance != VK_NULL_HANDLE) vkDestroyInstance(instance, nullptr);
 }

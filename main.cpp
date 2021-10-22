@@ -3,11 +3,6 @@
 
 #include "app.hpp"
 
-std::vector<const char *> layerNames {
-
-	"VK_LAYER_KHRONOS_validation"
-};
-
 int main() {
 
 	Application app("Vulkan");
