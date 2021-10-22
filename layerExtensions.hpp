@@ -5,20 +5,20 @@
 class LayerExtensions {
 
 public:
-        LayerExtensions() {}
-        ~LayerExtensions() {}
+	LayerExtensions() {}
+	~LayerExtensions() {}
 
-        bool getInstanceLayerProperties(void);
-        void getRequiredExtensions(void);
-        VkResult setupDebugMessenger(VkInstance &instance);
-        void destroyDebugMessenger(VkInstance &instance);
+	bool getInstanceLayerProperties(void);
+	std::vector<const char *> getRequiredExtensions(void);
+	VkResult createDebugUtilsMessengerEXT(VkInstance instance, const VkDebugUtilsMessengerCreateInfoEXT* pCreateInfo, const VkAllocationCallbacks* pAllocator, VkDebugUtilsMessengerEXT* pDebugMessenger);
+	void destroyDebugUtilsMessengerEXT(VkInstance instance, VkDebugUtilsMessengerEXT debugMessenger, const VkAllocationCallbacks* pAllocator);
+	VkResult setupDebugMessenger(VkInstance instance);
+	void populateDebugMessengerCreateInfo(VkDebugUtilsMessengerCreateInfoEXT& createInfo);
 
-        std::vector<const char *> Layers;
-        std::vector<const char *> Extensions;
 
-        VkDebugUtilsMessengerEXT debugMessenger;
+	VkDebugUtilsMessengerEXT debugMessenger;
 
-        static VKAPI_ATTR VkBool32 VKAPI_CALL debugCallback(VkDebugUtilsMessageSeverityFlagBitsEXT messageSeverity, VkDebugUtilsMessageTypeFlagsEXT messageType, const VkDebugUtilsMessengerCallbackDataEXT* pCallbackData, void* pUserData) {
+	static VKAPI_ATTR VkBool32 VKAPI_CALL debugCallback(VkDebugUtilsMessageSeverityFlagBitsEXT messageSeverity, VkDebugUtilsMessageTypeFlagsEXT messageType, const VkDebugUtilsMessengerCallbackDataEXT* pCallbackData, void* pUserData) {
 
 		std::cerr << "Validation layer: " << pCallbackData->pMessage << std::endl;
 
