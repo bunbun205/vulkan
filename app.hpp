@@ -2,6 +2,7 @@
 
 #include "window.hpp"
 #include "instance.hpp"
+#include "device.hpp"
 
 class Application {
 
@@ -21,4 +22,5 @@ private:
         std::string appname;
 	Window win;
         Instance inst;
+        Device device;
 };

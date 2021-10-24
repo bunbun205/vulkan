@@ -26,6 +26,9 @@ void Application::initVulkan(void) {
 
                 throw std::runtime_error("Failed to setup debug messenger");
         }
+
+        device.enumeratePhysicalDevices(inst.instance);
+        device.createLogicalDevice();
 }
 
 void Application::mainloop(void) {
@@ -39,6 +42,7 @@ void Application::mainloop(void) {
 
 void Application::cleanup(void) {
 
+        device.destroyDevice();
         inst.destroyInstance();
         win.destWin();
 }

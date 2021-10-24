@@ -5,7 +5,7 @@ set(CMAKE_CXX_STANDARD 17)
 
 project(Vulkan VERSION 1.0 LANGUAGES CXX)
 
-add_executable(App main.cpp app.cpp window.cpp instance.cpp layerExtensions.cpp)
+add_executable(App main.cpp app.cpp window.cpp instance.cpp layerExtensions.cpp device.cpp)
 
 target_link_libraries(App glfw vulkan dl pthread X11 Xrandr Xi)
 

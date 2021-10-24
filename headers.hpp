@@ -5,6 +5,7 @@
 
 #include <vulkan/vulkan.hpp>
 
+#include <map>
 #include <mutex>
 #include <chrono>
 #include <thread>
@@ -16,4 +17,5 @@
 #include <cassert>
 #include <unistd.h>
 #include <iostream>
+#include <optional>
 #include <stdexcept>
